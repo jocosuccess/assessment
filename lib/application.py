@@ -1,3 +1,4 @@
+import functools
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -5,6 +6,8 @@ import tornado.web
 import os
 import os.path
 import sys
+import urllib
+
 from werkzeug.routing import Rule, Map, _rule_re
 
 import conf.config as cfg
@@ -103,10 +106,10 @@ def authenticated_with_role(role):
                         else:
                             assert self.request.uri is not None
                             next_url = self.request.uri
-                        url += "?" + urlencode(dict(next=next_url))
+                        url += "?" + urllib.parse.urlencode(dict(next=next_url))
                     self.redirect(url)
                     return None
-                raise HTTPError(403)
+                raise urllib.error.HTTPError(403)
             return method(self, *args, **kwargs)
         return wrapper
     return authenticated
