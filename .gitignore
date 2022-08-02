@@ -1,0 +1,4 @@
+venv
+_dist
+.idea
+*.pyc
